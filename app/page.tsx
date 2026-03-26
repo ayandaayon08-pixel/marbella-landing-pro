@@ -2,6 +2,24 @@
 
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
+
+const MenuGallery3D = dynamic(() => import('./components/MenuGallery3D'), {
+  ssr: false,
+  loading: () => (
+    <div style={{
+      width: '100%', height: '500px', background: '#000',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <div style={{
+        fontFamily: 'Cormorant Garamond, serif', fontSize: '18px',
+        color: 'rgba(201,169,110,0.5)', letterSpacing: '0.2em', fontStyle: 'italic',
+      }}>
+        Loading Menu...
+      </div>
+    </div>
+  ),
+})
 
 // ── Icons (inline SVGs to avoid dependencies) ──────────────────────────────
 const InstagramIcon = () => (
@@ -45,25 +63,6 @@ const ChevronDownIcon = () => (
 )
 
 // ── Menu data ───────────────────────────────────────────────────────────────
-const menuHighlights = [
-  {
-    category: 'Signature Starters',
-    items: ['Pomodoro Mussels', 'Chilli Karaage Wings', 'Stuffed Champignon', 'Salmon Fish Cakes'],
-  },
-  {
-    category: 'Premium Mains',
-    items: ['King Prawns', 'Wagyu Beef Burger', 'Lobster Burger', 'Grill Platter'],
-  },
-  {
-    category: 'Sushi & Platters',
-    items: ['Marbella Platter', 'Salmon Platter', 'Prawn Avalanche', 'Rainbow Rolls'],
-  },
-  {
-    category: 'Cocktail Bar',
-    items: ['Marbellicious', 'Mediterranean Explosion', 'Strawberry Bubbly', 'El Patron Margarita'],
-  },
-]
-
 const reviews = [
   {
     name: 'Bontle L.',
@@ -418,84 +417,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── MENU PREVIEW ─────────────────────────────────────────────────── */}
-      <section id="menu" style={{ padding: '120px 0', background: 'linear-gradient(180deg, var(--brown-deep) 0%, var(--brown-rich) 100%)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 32px' }}>
-          {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '72px' }}>
-            <div className="section-label" style={{ marginBottom: '16px' }}>Curated Selections</div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px', marginBottom: '24px' }}>
-              <div className="gold-line" style={{ width: '80px' }} />
-              <span style={{ color: 'var(--gold)', fontSize: '20px' }}>✦</span>
-              <div className="gold-line" style={{ width: '80px' }} />
-            </div>
-            <h2 style={{
-              fontFamily: 'Cormorant Garamond, serif',
-              fontSize: 'clamp(40px, 5vw, 64px)',
-              fontWeight: 300, marginBottom: '20px',
-            }}>
-              An Extraordinary Menu
-            </h2>
-            <p style={{
-              fontSize: '14px', color: 'rgba(245,237,216,0.6)', fontWeight: 300,
-              letterSpacing: '0.05em', maxWidth: '480px', margin: '0 auto',
-            }}>
-              From Wagyu burgers to king prawns, fresh sushi platters to hand-crafted signature cocktails —
-              every dish tells a story of quality and craft.
-            </p>
-          </div>
-
-          {/* Menu cards grid */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '2px', marginBottom: '64px',
-          }}>
-            {menuHighlights.map((cat, idx) => (
-              <div
-                key={cat.category}
-                className="menu-card"
-                style={{
-                  padding: '48px 36px',
-                  background: idx % 2 === 0 ? 'rgba(46,31,10,0.6)' : 'rgba(28,18,8,0.8)',
-                  borderTop: '2px solid rgba(201,169,110,0.15)',
-                  transition: 'background 0.3s ease',
-                  cursor: 'default',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(74,50,24,0.5)')}
-                onMouseLeave={e => (e.currentTarget.style.background = idx % 2 === 0 ? 'rgba(46,31,10,0.6)' : 'rgba(28,18,8,0.8)')}
-              >
-                <div style={{ color: 'var(--gold)', fontSize: '24px', marginBottom: '16px' }}>
-                  {['⚑', '♨', '⬡', '✦'][idx]}
-                </div>
-                <div className="section-label" style={{ marginBottom: '20px', fontSize: '10px' }}>{cat.category}</div>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {cat.items.map((item) => (
-                    <li key={item} style={{
-                      fontSize: '15px', fontFamily: 'Cormorant Garamond, serif',
-                      fontWeight: 400, color: 'rgba(245,237,216,0.8)',
-                      paddingBottom: '10px',
-                      borderBottom: '1px solid rgba(201,169,110,0.08)',
-                    }}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Menu CTA */}
-          <div style={{ textAlign: 'center' }}>
-            <p style={{
-              fontSize: '13px', color: 'rgba(245,237,216,0.45)', marginBottom: '32px',
-              letterSpacing: '0.05em', fontStyle: 'italic', fontFamily: 'Cormorant Garamond, serif',
-            }}>
-              Cocktails from R89 · Happy Hour R65 Cocktails · Wine from R75 · Sushi from R70
-            </p>
-            <a href="#reservations" className="btn-luxury">Book & Dine Tonight</a>
-          </div>
-        </div>
-      </section>
+      {/* ── 3D MENU GALLERY ──────────────────────────────────────────────── */}
+      <MenuGallery3D />
 
       {/* ── REVIEWS ──────────────────────────────────────────────────────── */}
       <section style={{
